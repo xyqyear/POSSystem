@@ -3,23 +3,40 @@ package com.xyqyear.possystem;
 import java.util.Scanner;
 
 public class UI {
+    private Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
         UI ui = new UI();
         ui.run();
     }
 
     private int readInt() {
-        Scanner scanner = new Scanner(System.in);
         int temp = scanner.nextInt();
-        scanner.close();
+        scanner.nextLine();
         return temp;
     }
 
     private String readLine() {
-        Scanner scanner = new Scanner(System.in);
-        String temp = scanner.nextLine();
-        scanner.close();
-        return temp;
+        return scanner.nextLine();
+    }
+
+    private boolean askContinue(String message, String[] choices) {
+        while (true) {
+            System.out.println(message + "(" + choices[0] + "/" + choices[1] + "):");
+            String choice = readLine();
+            if (choice.equals(choices[0])) {
+                return true;
+            } else if (choice.equals(choices[1])) {
+                return false;
+            } else {
+                System.out.println("请输入" + choices[0] + "/" + choices[1] + "!");
+                continue;
+            }
+        }
+    }
+
+    private boolean askContinue(String message) {
+        return askContinue(message, new String[] { "y", "n" });
     }
 
     private void run() {
@@ -28,20 +45,7 @@ public class UI {
         pos.startUp();
 
         while (true) {
-            System.out.println("要开始一次销售吗？(y/n): ");
-            String choice = readLine();
-            boolean continueFlag = false;
-            if (choice.equals("y")) {
-                continueFlag = true;
-            } else if (choice.equals("n")) {
-                System.out.println("正在退出系统……");
-                System.exit(0);
-            } else {
-                System.out.println("请输入y/n!");
-                continue;
-            }
-
-            if (continueFlag) {
+            if (askContinue("开始一次销售吗？")) {
                 pos.makeNewSale();
 
                 while (true) {
@@ -51,32 +55,18 @@ public class UI {
                     int quantity = readInt();
                     pos.enterItem(id, quantity);
 
-                    boolean continueFlag1 = false;
-                    while (true) {
-                        System.out.println("要继续加购商品吗？(y/n)");
-                        String choice1 = readLine();
-                        if (choice1.equals("y")) {
-                            continueFlag1 = true;
-                            break;
-                        } else if (choice1.equals("n")) {
-                            break;
-                        } else {
-                            System.out.println("请输入y/n!");
-                        }
-                    }
-
-                    if (continueFlag1) {
-                        continue;
-                    } else {
+                    if (!askContinue("要继续加购商品吗？")) {
                         break;
                     }
                 }
 
                 System.out.println("打钱!");
-                int paymentAmount = readInt();
-                pos.makePayment(paymentAmount);
+                pos.makePayment(readInt());
                 System.out.println("正在打印单据……");
                 pos.finishASale();
+            } else {
+                System.out.println("正在退出系统……");
+                break;
             }
         }
     }
