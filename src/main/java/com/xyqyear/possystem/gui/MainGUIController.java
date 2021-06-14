@@ -50,7 +50,11 @@ public class MainGUIController implements Initializable {
 
     @FXML
     private void onCheckoutButtonClicked() {
-        app.startCheckout();
+        if (table.getItems().isEmpty()) {
+            app.showAlert("未输入任何商品!");
+        } else {
+            app.startCheckout();
+        }
     }
 
     @FXML
