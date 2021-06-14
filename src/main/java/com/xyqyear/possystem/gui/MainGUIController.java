@@ -55,13 +55,11 @@ public class MainGUIController implements Initializable {
 
     @FXML
     private void OnInsertButtonClicked() {
-        int quantity;
         try {
-            quantity = Integer.parseInt(quantityTextField.getText());
+            int quantity = Integer.parseInt(quantityTextField.getText());
             if (quantity > 0) {
-                int id;
                 try {
-                    id = Integer.parseInt(idTextField.getText());
+                    int id = Integer.parseInt(idTextField.getText());
                     if (app.getPos().enterItem(id, quantity)) {
                         updateTable();
                     } else {

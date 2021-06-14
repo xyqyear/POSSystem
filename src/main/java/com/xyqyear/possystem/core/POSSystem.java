@@ -31,7 +31,7 @@ public class POSSystem {
         currentSale.beComplete();
     }
 
-    public void makePayment(float cash) {
+    public void makePayment(double cash) {
         currentSale.makePayment(cash);
     }
 
@@ -45,5 +45,9 @@ public class POSSystem {
 
     public double getTotal() {
         return currentSale.getTotal();
+    }
+
+    public double getBalance() {
+        return currentSale.getBalance();
     }
 }

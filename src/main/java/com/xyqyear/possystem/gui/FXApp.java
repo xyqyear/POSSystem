@@ -47,7 +47,8 @@ public class FXApp extends Application {
 
         FXMLLoader checkoutLoader = new FXMLLoader();
         checkoutLoader.setLocation(getClass().getResource("/checkout.fxml"));
-        checkoutLoader.setController(new CheckoutGUIController(this));
+        CheckoutGUIController.init(this);
+        checkoutLoader.setController(CheckoutGUIController.getInstance());
         Parent checkoutRoot = checkoutLoader.load();
         checkoutScene = new Scene(checkoutRoot);
 
@@ -71,6 +72,7 @@ public class FXApp extends Application {
     }
 
     public void startCheckout() {
+        CheckoutGUIController.getInstance().startNewCheckout();
         checkoutStage.show();
     }
 

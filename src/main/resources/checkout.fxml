@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="227.0" prefWidth="239.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="78.0" layoutY="31.0" text="总价: ">
@@ -14,7 +13,7 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="131.0" layoutY="35.0" />
+      <Label fx:id="totalPriceLabel" layoutX="131.0" layoutY="35.0" />
       <Label layoutX="14.0" layoutY="78.0" text="付款: " />
       <Button layoutX="170.0" layoutY="74.0" mnemonicParsing="false" onMouseClicked="#onConfirmButtonClicked" text="确定" />
       <TextField fx:id="paymentTextField" layoutX="55.0" layoutY="74.0" prefHeight="23.0" prefWidth="101.0" />
@@ -23,9 +22,9 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="131.0" layoutY="118.0" />
-      <Button layoutX="42.0" layoutY="159.0" mnemonicParsing="false" onMouseClicked="#onPrintButtonClicked" text="打印单据" />
+      <Label fx:id="balanceLabel" layoutX="131.0" layoutY="118.0" />
+      <Button fx:id="printButton" layoutX="42.0" layoutY="159.0" mnemonicParsing="false" onMouseClicked="#onPrintButtonClicked" text="打印单据" />
       <Button layoutX="117.0" layoutY="159.0" mnemonicParsing="false" onMouseClicked="#onNewSaleButtonClicked" prefHeight="23.0" prefWidth="79.0" text="新一轮销售" />
-      <Label fx:id="infoLabel" layoutX="51.0" layoutY="194.0" prefHeight="15.0" prefWidth="50.0" />
+      <Label fx:id="printInfoLabel" layoutX="51.0" layoutY="194.0" prefHeight="15.0" prefWidth="50.0" />
    </children>
 </Pane>
