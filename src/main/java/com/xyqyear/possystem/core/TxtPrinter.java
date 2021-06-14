@@ -3,7 +3,7 @@ package com.xyqyear.possystem.core;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class ConsolePrinter implements IPrinter {
+public class TxtPrinter implements IPrinter {
     @Override
     public void print(String s) {
         try {
