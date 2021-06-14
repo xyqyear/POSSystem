@@ -1,12 +1,8 @@
 package com.xyqyear.possystem.core;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 
-public class Receipt {
-    private String str = "";
-
+public class SimpleReceipt implements IReceipt {
     private static String lineItemsToString(List<SaleLineItem> lineitems) {
         String s = new String();
         s += "品名\t零售价\t数量\t金额\n";
@@ -26,26 +22,14 @@ public class Receipt {
         return st;
     }
 
-    private void transToString(Sale s) {
+    @Override
+    public String saleToString(Sale s) {
+        String str = new String();
         str += "-----------------------\n";
         str += "RECEIPT START\n";
         str += lineItemsToString(s.getLineItems());
         str += getTotalString(s);
-    }
 
-    private void writeToTxt() {
-        try {
-            FileWriter fileWriter = new FileWriter("receipt.txt");
-            fileWriter.append(str + "\n");
-            fileWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void print(Sale s) {
-        transToString(s);
-        System.out.println(str);
-        writeToTxt();
+        return str;
     }
 }

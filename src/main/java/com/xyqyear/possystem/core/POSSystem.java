@@ -12,6 +12,8 @@ public class POSSystem {
 
     public void makeNewSale() {
         currentSale = new Sale();
+        currentSale.setReceipt(new SimpleReceipt());
+        currentSale.setPrinter(new ConsolePrinter());
     }
 
     public boolean enterItem(int id, int quantity) {

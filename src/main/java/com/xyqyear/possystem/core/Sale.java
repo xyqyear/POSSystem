@@ -8,6 +8,9 @@ class Sale {
     private boolean isComplete = false;
     private Payment pay;
 
+    private IReceipt receipt;
+    private IPrinter printer;
+
     public void makeLineItem(int quantity, ProductDescription description) {
         lineItems.add(new SaleLineItem(quantity, description));
     }
@@ -41,8 +44,8 @@ class Sale {
     }
 
     public void finish() {
-        Receipt receipt = new Receipt();
-        receipt.print(this);
+        String receiptContent = receipt.saleToString(this);
+        printer.print(receiptContent);
     }
 
     public void makePayment(double cash) {
@@ -53,4 +56,11 @@ class Sale {
         return pay.getCash() - getTotal();
     }
 
+    public void setReceipt(IReceipt receipt) {
+        this.receipt = receipt;
+    }
+
+    public void setPrinter(IPrinter printer) {
+        this.printer = printer;
+    }
 }
