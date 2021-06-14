@@ -1,24 +1,24 @@
-package com.xyqyear.possystem;
+package com.xyqyear.possystem.gui;
 
 public class TableSaleItem {
-    private String order;
+    private String index;
     private String id;
     private String name;
     private String price;
-    private String number;
+    private String quantity;
     private String totalPrice;
 
-    public TableSaleItem(String order, String id, String name, String price, String number, String totalPrice) {
-        this.order = order;
+    public TableSaleItem(String index, String id, String name, String price, String quantity, String totalPrice) {
+        this.index = index;
         this.id = id;
         this.name = name;
         this.price = price;
-        this.number = number;
+        this.quantity = quantity;
         this.totalPrice = totalPrice;
     }
 
-    public String getOrder() {
-        return order;
+    public String getIndex() {
+        return index;
     }
 
     public String getId() {
@@ -33,8 +33,8 @@ public class TableSaleItem {
         return price;
     }
 
-    public String getNumber() {
-        return number;
+    public String getQuantity() {
+        return quantity;
     }
 
     public String getTotalPrice() {

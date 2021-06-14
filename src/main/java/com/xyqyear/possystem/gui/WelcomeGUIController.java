@@ -1,4 +1,4 @@
-package com.xyqyear.possystem;
+package com.xyqyear.possystem.gui;
 
 import javafx.fxml.FXML;
 
@@ -11,6 +11,7 @@ public class WelcomeGUIController {
 
     @FXML
     private void onConfirmButtonClicked() {
-        app.startNewSale();
+        app.getPos().startUp();
+        app.startMain();
     }
 }

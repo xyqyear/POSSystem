@@ -1,6 +1,8 @@
-package com.xyqyear.possystem;
+package com.xyqyear.possystem.cli;
 
 import java.util.Scanner;
+
+import com.xyqyear.possystem.core.POSSystem;
 
 public class UI {
     private Scanner scanner = new Scanner(System.in);

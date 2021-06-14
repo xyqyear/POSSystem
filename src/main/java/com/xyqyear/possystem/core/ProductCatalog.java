@@ -1,4 +1,4 @@
-package com.xyqyear.possystem;
+package com.xyqyear.possystem.core;
 
 import java.util.HashMap;
 import java.util.Map;

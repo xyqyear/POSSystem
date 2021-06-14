@@ -1,4 +1,4 @@
-package com.xyqyear.possystem;
+package com.xyqyear.possystem.gui;
 
 import javafx.application.Application;
 

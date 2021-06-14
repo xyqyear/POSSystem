@@ -1,4 +1,4 @@
-package com.xyqyear.possystem;
+package com.xyqyear.possystem.gui;
 
 import javafx.fxml.FXML;
 
@@ -21,6 +21,7 @@ public class CheckoutGUIController {
 
     @FXML
     private void onNewSaleButtonClicked() {
-
+        MainGUIController.getInstance().startNewSale();
+        app.finishCheckout();
     }
 }

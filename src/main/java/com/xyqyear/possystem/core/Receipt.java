@@ -1,4 +1,4 @@
-package com.xyqyear.possystem;
+package com.xyqyear.possystem.core;
 
 import java.io.FileWriter;
 import java.io.IOException;

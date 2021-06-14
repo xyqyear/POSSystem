@@ -1,6 +1,8 @@
-package com.xyqyear.possystem;
+package com.xyqyear.possystem.core;
 
-class POSSystem {
+import java.util.List;
+
+public class POSSystem {
     private Sale currentSale;
     private ProductCatalog catalog;
 
@@ -12,9 +14,17 @@ class POSSystem {
         currentSale = new Sale();
     }
 
-    public void enterItem(int id, int quantity) {
+    public boolean enterItem(int id, int quantity) {
         ProductDescription desc = catalog.getProductDesc(id);
+        if (desc == null) {
+            return false;
+        }
         currentSale.makeLineItem(quantity, desc);
+        return true;
+    }
+
+    public void removeItem(int index) {
+        currentSale.removeItem(index);
     }
 
     public void endPurchase() {
@@ -27,5 +37,13 @@ class POSSystem {
 
     public void finishASale() {
         currentSale.finish();
+    }
+
+    public List<SaleLineItem> getLineItems() {
+        return currentSale.getLineItems();
+    }
+
+    public double getTotal() {
+        return currentSale.getTotal();
     }
 }

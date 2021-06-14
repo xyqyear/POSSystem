@@ -1,4 +1,4 @@
-package com.xyqyear.possystem;
+package com.xyqyear.possystem.core;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,10 @@ class Sale {
 
     public void makeLineItem(int quantity, ProductDescription description) {
         lineItems.add(new SaleLineItem(quantity, description));
+    }
+
+    public void removeItem(int index) {
+        lineItems.remove(index);
     }
 
     public List<SaleLineItem> getLineItems() {

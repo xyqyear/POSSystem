@@ -1,4 +1,4 @@
-package com.xyqyear.possystem;
+package com.xyqyear.possystem.core;
 
 public class Payment {
     private double cash;

@@ -44,6 +44,6 @@
             <Font size="30.0" />
          </font>
       </Label>
-      <Button fx:id="confirmButton" layoutX="133.0" layoutY="185.0" mnemonicParsing="false" onMouseClicked="#onConfirmButtonClicked" text="开始销售" />
+      <Button layoutX="133.0" layoutY="185.0" mnemonicParsing="false" onMouseClicked="#onConfirmButtonClicked" text="开始销售" />
    </children>
 </Pane>

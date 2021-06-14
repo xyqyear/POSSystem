@@ -1,6 +1,8 @@
-package com.xyqyear.possystem;
+package com.xyqyear.possystem.gui;
 
 import java.io.IOException;
+
+import com.xyqyear.possystem.core.POSSystem;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,12 +16,22 @@ import javafx.stage.Stage;
 
 public class FXApp extends Application {
     private Stage primaryStage;
+    private Stage checkoutStage;
 
     private Scene welcomeScene;
     private Scene mainScene;
     private Scene checkoutScene;
 
+    private POSSystem pos;
+
     public FXApp() throws IOException {
+        pos = new POSSystem();
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        this.primaryStage = primaryStage;
+
         FXMLLoader welcomeLoader = new FXMLLoader();
         welcomeLoader.setLocation(getClass().getResource("/welcome.fxml"));
         welcomeLoader.setController(new WelcomeGUIController(this));
@@ -28,7 +40,8 @@ public class FXApp extends Application {
 
         FXMLLoader mainLoader = new FXMLLoader();
         mainLoader.setLocation(getClass().getResource("/main.fxml"));
-        mainLoader.setController(new MainGUIController(this));
+        MainGUIController.init(this);
+        mainLoader.setController(MainGUIController.getInstance());
         Parent mainRoot = mainLoader.load();
         mainScene = new Scene(mainRoot);
 
@@ -37,11 +50,13 @@ public class FXApp extends Application {
         checkoutLoader.setController(new CheckoutGUIController(this));
         Parent checkoutRoot = checkoutLoader.load();
         checkoutScene = new Scene(checkoutRoot);
-    }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        this.primaryStage = primaryStage;
+        checkoutStage = new Stage();
+        checkoutStage.setScene(checkoutScene);
+        checkoutStage.setResizable(false);
+        checkoutStage.initModality(Modality.WINDOW_MODAL);
+        checkoutStage.initOwner(primaryStage);
+
         startWelcome();
     }
 
@@ -50,21 +65,25 @@ public class FXApp extends Application {
         primaryStage.show();
     }
 
-    public void startNewSale() {
+    public void startMain() {
+        MainGUIController.getInstance().startNewSale();
         primaryStage.setScene(mainScene);
     }
 
     public void startCheckout() {
-        Stage checkoutStage = new Stage();
-        checkoutStage.setScene(checkoutScene);
-        checkoutStage.setResizable(false);
-        checkoutStage.initModality(Modality.WINDOW_MODAL);
-        checkoutStage.initOwner(primaryStage);
         checkoutStage.show();
+    }
+
+    public void finishCheckout() {
+        checkoutStage.hide();
     }
 
     public void showAlert(String message) {
         Alert alert = new Alert(AlertType.NONE, message, ButtonType.YES);
         alert.showAndWait();
+    }
+
+    public POSSystem getPos() {
+        return pos;
     }
 }
