@@ -8,14 +8,10 @@ import com.xyqyear.possystem.core.POSSystem;
 import com.xyqyear.possystem.core.ProductDescription;
 import com.xyqyear.possystem.core.SaleLineItem;
 
-import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
