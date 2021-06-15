@@ -15,9 +15,9 @@ public class WelcomeGUIController {
         return singleton;
     }
 
+    // !
     @FXML
     private void onConfirmButtonClicked() {
-        FXApp.getInstance().getPos().startUp();
-        FXApp.getInstance().startMain();
+        Context.getInstance().makeNewSale();
     }
 }

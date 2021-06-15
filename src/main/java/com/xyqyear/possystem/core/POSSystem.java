@@ -5,6 +5,14 @@ import java.util.List;
 public class POSSystem {
     private Sale currentSale;
     private ProductCatalog catalog;
+    private static POSSystem singleton = null;
+
+    public static POSSystem getInstance() {
+        if (singleton == null) {
+            singleton = new POSSystem();
+        }
+        return singleton;
+    }
 
     public void startUp() {
         catalog = new ProductCatalog();
@@ -16,13 +24,9 @@ public class POSSystem {
         currentSale.setPrinter(new TxtPrinter());
     }
 
-    public boolean enterItem(int id, int quantity) {
+    public void enterItem(int id, int quantity) {
         ProductDescription desc = catalog.getProductDesc(id);
-        if (desc == null) {
-            return false;
-        }
         currentSale.makeLineItem(quantity, desc);
-        return true;
     }
 
     public void removeItem(int index) {

@@ -1,5 +1,7 @@
 package com.xyqyear.possystem.gui;
 
+import com.xyqyear.possystem.core.POSSystem;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -8,6 +10,8 @@ import javafx.scene.control.TextField;
 public class CheckoutGUIController {
     private static CheckoutGUIController singleton;
 
+    // TODO change print button position
+    // TODO delete new sale button
     @FXML
     private Button printButton;
 
@@ -21,35 +25,18 @@ public class CheckoutGUIController {
     private Label balanceLabel;
 
     @FXML
-    private Label printInfoLabel;
-
-    @FXML
     private void onConfirmButtonClicked() {
-        try {
-            double payment = Double.parseDouble(paymentTextField.getText());
-            if (FXApp.getInstance().getPos().getTotal() < payment) {
-                FXApp.getInstance().getPos().makePayment(payment);
-                balanceLabel.setText(String.format("%.2f", FXApp.getInstance().getPos().getBalance()));
-                printButton.setDisable(false);
-            } else {
-                FXApp.getInstance().showAlert("付款不足");
-            }
-        } catch (NumberFormatException e) {
-            FXApp.getInstance().showAlert("请填写正确的数量");
-        }
+        Context.getInstance().makePayment(Double.parseDouble(paymentTextField.getText()));
+    }
+
+    public void updateLabel() {
+        balanceLabel.setText(String.format("%.2f", POSSystem.getInstance().getBalance()));
+        printButton.setDisable(false);
     }
 
     @FXML
     private void onPrintButtonClicked() {
-        printInfoLabel.setText("正在打印");
-        FXApp.getInstance().getPos().finishASale();
-        printInfoLabel.setText("打印完成");
-    }
-
-    @FXML
-    private void onNewSaleButtonClicked() {
-        MainGUIController.getInstance().startNewSale();
-        FXApp.getInstance().finishCheckout();
+        Context.getInstance().finishASale();
     }
 
     public static CheckoutGUIController getInstance() {
@@ -62,11 +49,10 @@ public class CheckoutGUIController {
     private CheckoutGUIController() {
     }
 
-    public void startNewCheckout() {
+    public void clearDisplay() {
         printButton.setDisable(true);
-        totalPriceLabel.setText(String.format("%.2f", FXApp.getInstance().getPos().getTotal()));
+        totalPriceLabel.setText(String.format("%.2f", POSSystem.getInstance().getTotal()));
         paymentTextField.clear();
         balanceLabel.setText("");
-        printInfoLabel.setText("");
     }
 }

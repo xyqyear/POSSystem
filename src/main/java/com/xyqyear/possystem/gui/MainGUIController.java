@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.xyqyear.possystem.core.POSSystem;
 import com.xyqyear.possystem.core.ProductDescription;
 import com.xyqyear.possystem.core.SaleLineItem;
 
@@ -51,7 +52,7 @@ public class MainGUIController implements Initializable {
         if (table.getItems().isEmpty()) {
             FXApp.getInstance().showAlert("未输入任何商品!");
         } else {
-            FXApp.getInstance().startCheckout();
+            Context.getInstance().endPurchase();
         }
     }
 
@@ -62,11 +63,7 @@ public class MainGUIController implements Initializable {
             if (quantity > 0) {
                 try {
                     int id = Integer.parseInt(idTextField.getText());
-                    if (FXApp.getInstance().getPos().enterItem(id, quantity)) {
-                        updateTable();
-                    } else {
-                        FXApp.getInstance().showAlert("请填写正确的编号");
-                    }
+                    Context.getInstance().enterItem(id, quantity);
                 } catch (NumberFormatException e) {
                     FXApp.getInstance().showAlert("请填写正确的编号");
                 }
@@ -102,27 +99,9 @@ public class MainGUIController implements Initializable {
         priceTableColumn.setCellValueFactory(new PropertyValueFactory<TableSaleItem, String>("price"));
         quantityTableColumn.setCellValueFactory(new PropertyValueFactory<TableSaleItem, String>("quantity"));
         totalPriceTableColumn.setCellValueFactory(new PropertyValueFactory<TableSaleItem, String>("totalPrice"));
-
-        table.setRowFactory((tableView) -> {
-            final TableRow<TableSaleItem> row = new TableRow<>();
-            final ContextMenu rowMenu = new ContextMenu();
-            MenuItem removeItem = new MenuItem("删除");
-            removeItem.setOnAction((event) -> {
-                int index = table.getItems().indexOf(row.getItem());
-                removeItemFromPos(index);
-                repopulateTable();
-            });
-            rowMenu.getItems().add(removeItem);
-
-            // only display context menu for non-empty rows:
-            row.contextMenuProperty()
-                    .bind(Bindings.when(row.emptyProperty()).then((ContextMenu) null).otherwise(rowMenu));
-            return row;
-        });
     }
 
-    public void startNewSale() {
-        FXApp.getInstance().getPos().makeNewSale();
+    public void clearDisplay() {
         clearTable();
         clearInput();
         totalPriceLabel.setText("0.00");
@@ -137,45 +116,28 @@ public class MainGUIController implements Initializable {
         quantityTextField.clear();
     }
 
-    private void repopulateTable() {
-        clearTable();
-        List<SaleLineItem> saleLineItems = FXApp.getInstance().getPos().getLineItems();
-        for (SaleLineItem sli : saleLineItems) {
-            addSaleLineItemToTable(sli);
-        }
-
-        updateTotalText();
-    }
-
-    private void updateTable() {
-        List<SaleLineItem> saleLineItems = FXApp.getInstance().getPos().getLineItems();
+    public void updateTable() {
+        List<SaleLineItem> saleLineItems = POSSystem.getInstance().getLineItems();
         if (saleLineItems.isEmpty()) {
             clearTable();
         } else {
-            addSaleLineItemToTable(saleLineItems.get(saleLineItems.size() - 1));
+            SaleLineItem sli = saleLineItems.get(saleLineItems.size() - 1);
+            ProductDescription desc = sli.getDescription();
+
+            String index = Integer.toString(table.getItems().size() + 1);
+            String id = Integer.toString(desc.getId());
+            String name = desc.getName();
+            String price = String.format("%.2f", desc.getPrice());
+            String quantity = Integer.toString(sli.getQuantity());
+            String totalPrice = String.format("%.2f", sli.getSubtotal());
+
+            table.getItems().add(new TableSaleItem(index, id, name, price, quantity, totalPrice));
         }
 
         updateTotalText();
     }
 
-    private void addSaleLineItemToTable(SaleLineItem sli) {
-        ProductDescription desc = sli.getDescription();
-
-        String index = Integer.toString(table.getItems().size() + 1);
-        String id = Integer.toString(desc.getId());
-        String name = desc.getName();
-        String price = String.format("%.2f", desc.getPrice());
-        String quantity = Integer.toString(sli.getQuantity());
-        String totalPrice = String.format("%.2f", sli.getSubtotal());
-
-        table.getItems().add(new TableSaleItem(index, id, name, price, quantity, totalPrice));
-    }
-
     private void updateTotalText() {
-        totalPriceLabel.setText(String.format("%.2f", FXApp.getInstance().getPos().getTotal()));
-    }
-
-    private void removeItemFromPos(int index) {
-        FXApp.getInstance().getPos().removeItem(index);
+        totalPriceLabel.setText(String.format("%.2f", POSSystem.getInstance().getTotal()));
     }
 }
