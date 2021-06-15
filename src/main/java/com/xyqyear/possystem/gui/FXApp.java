@@ -1,7 +1,5 @@
 package com.xyqyear.possystem.gui;
 
-import java.io.IOException;
-
 import com.xyqyear.possystem.core.POSSystem;
 
 import javafx.application.Application;
@@ -24,30 +22,37 @@ public class FXApp extends Application {
 
     private POSSystem pos;
 
-    public FXApp() throws IOException {
+    private static FXApp singleton;
+
+    public FXApp() {
         pos = new POSSystem();
+    }
+
+    // FXApp will only be initialized by main function, so this is fine.
+    public static FXApp getInstance() {
+        return singleton;
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        singleton = this;
+
         this.primaryStage = primaryStage;
 
         FXMLLoader welcomeLoader = new FXMLLoader();
         welcomeLoader.setLocation(getClass().getResource("/welcome.fxml"));
-        welcomeLoader.setController(new WelcomeGUIController(this));
+        welcomeLoader.setController(WelcomeGUIController.getInstance());
         Parent welcomeRoot = welcomeLoader.load();
         welcomeScene = new Scene(welcomeRoot);
 
         FXMLLoader mainLoader = new FXMLLoader();
         mainLoader.setLocation(getClass().getResource("/main.fxml"));
-        MainGUIController.init(this);
         mainLoader.setController(MainGUIController.getInstance());
         Parent mainRoot = mainLoader.load();
         mainScene = new Scene(mainRoot);
 
         FXMLLoader checkoutLoader = new FXMLLoader();
         checkoutLoader.setLocation(getClass().getResource("/checkout.fxml"));
-        CheckoutGUIController.init(this);
         checkoutLoader.setController(CheckoutGUIController.getInstance());
         Parent checkoutRoot = checkoutLoader.load();
         checkoutScene = new Scene(checkoutRoot);

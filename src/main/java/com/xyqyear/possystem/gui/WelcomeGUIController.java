@@ -3,15 +3,21 @@ package com.xyqyear.possystem.gui;
 import javafx.fxml.FXML;
 
 public class WelcomeGUIController {
-    private FXApp app;
+    private static WelcomeGUIController singleton = null;
 
-    public WelcomeGUIController(FXApp app) {
-        this.app = app;
+    private WelcomeGUIController() {
+    }
+
+    public static WelcomeGUIController getInstance() {
+        if (singleton == null) {
+            singleton = new WelcomeGUIController();
+        }
+        return singleton;
     }
 
     @FXML
     private void onConfirmButtonClicked() {
-        app.getPos().startUp();
-        app.startMain();
+        FXApp.getInstance().getPos().startUp();
+        FXApp.getInstance().startMain();
     }
 }

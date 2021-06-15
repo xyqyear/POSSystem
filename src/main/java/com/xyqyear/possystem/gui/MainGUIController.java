@@ -20,9 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class MainGUIController implements Initializable {
-    private FXApp app;
-
-    private static MainGUIController singleton;
+    private static MainGUIController singleton = null;
 
     @FXML
     private TableView<TableSaleItem> table;
@@ -51,9 +49,9 @@ public class MainGUIController implements Initializable {
     @FXML
     private void onCheckoutButtonClicked() {
         if (table.getItems().isEmpty()) {
-            app.showAlert("未输入任何商品!");
+            FXApp.getInstance().showAlert("未输入任何商品!");
         } else {
-            app.startCheckout();
+            FXApp.getInstance().startCheckout();
         }
     }
 
@@ -64,34 +62,32 @@ public class MainGUIController implements Initializable {
             if (quantity > 0) {
                 try {
                     int id = Integer.parseInt(idTextField.getText());
-                    if (app.getPos().enterItem(id, quantity)) {
+                    if (FXApp.getInstance().getPos().enterItem(id, quantity)) {
                         updateTable();
                     } else {
-                        app.showAlert("请填写正确的编号");
+                        FXApp.getInstance().showAlert("请填写正确的编号");
                     }
                 } catch (NumberFormatException e) {
-                    app.showAlert("请填写正确的编号");
+                    FXApp.getInstance().showAlert("请填写正确的编号");
                 }
             } else {
-                app.showAlert("请填写正确的数量");
+                FXApp.getInstance().showAlert("请填写正确的数量");
             }
         } catch (NumberFormatException e) {
-            app.showAlert("请填写正确的数量");
+            FXApp.getInstance().showAlert("请填写正确的数量");
         }
 
         clearInput();
     }
 
-    public static void init(FXApp app) {
-        singleton = new MainGUIController(app);
-    }
-
     public static MainGUIController getInstance() {
+        if (singleton == null) {
+            singleton = new MainGUIController();
+        }
         return singleton;
     }
 
-    private MainGUIController(FXApp app) {
-        this.app = app;
+    private MainGUIController() {
     }
 
     @Override
@@ -126,7 +122,7 @@ public class MainGUIController implements Initializable {
     }
 
     public void startNewSale() {
-        app.getPos().makeNewSale();
+        FXApp.getInstance().getPos().makeNewSale();
         clearTable();
         clearInput();
         totalPriceLabel.setText("0.00");
@@ -143,7 +139,7 @@ public class MainGUIController implements Initializable {
 
     private void repopulateTable() {
         clearTable();
-        List<SaleLineItem> saleLineItems = app.getPos().getLineItems();
+        List<SaleLineItem> saleLineItems = FXApp.getInstance().getPos().getLineItems();
         for (SaleLineItem sli : saleLineItems) {
             addSaleLineItemToTable(sli);
         }
@@ -152,7 +148,7 @@ public class MainGUIController implements Initializable {
     }
 
     private void updateTable() {
-        List<SaleLineItem> saleLineItems = app.getPos().getLineItems();
+        List<SaleLineItem> saleLineItems = FXApp.getInstance().getPos().getLineItems();
         if (saleLineItems.isEmpty()) {
             clearTable();
         } else {
@@ -176,10 +172,10 @@ public class MainGUIController implements Initializable {
     }
 
     private void updateTotalText() {
-        totalPriceLabel.setText(String.format("%.2f", app.getPos().getTotal()));
+        totalPriceLabel.setText(String.format("%.2f", FXApp.getInstance().getPos().getTotal()));
     }
 
     private void removeItemFromPos(int index) {
-        app.getPos().removeItem(index);
+        FXApp.getInstance().getPos().removeItem(index);
     }
 }
