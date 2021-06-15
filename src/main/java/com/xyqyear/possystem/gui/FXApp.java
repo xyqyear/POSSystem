@@ -1,5 +1,7 @@
 package com.xyqyear.possystem.gui;
 
+import java.io.IOException;
+
 import com.xyqyear.possystem.core.POSSystem;
 
 import javafx.application.Application;
@@ -34,7 +36,7 @@ public class FXApp extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws IOException {
         singleton = this;
 
         this.primaryStage = primaryStage;
