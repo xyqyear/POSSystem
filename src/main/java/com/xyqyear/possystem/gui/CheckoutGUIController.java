@@ -10,8 +10,6 @@ import javafx.scene.control.TextField;
 public class CheckoutGUIController {
     private static CheckoutGUIController singleton;
 
-    // TODO change print button position
-    // TODO delete new sale button
     @FXML
     private Button printButton;
 
@@ -29,11 +27,6 @@ public class CheckoutGUIController {
         Context.getInstance().makePayment(Double.parseDouble(paymentTextField.getText()));
     }
 
-    public void updateLabel() {
-        balanceLabel.setText(String.format("%.2f", POSSystem.getInstance().getBalance()));
-        printButton.setDisable(false);
-    }
-
     @FXML
     private void onPrintButtonClicked() {
         Context.getInstance().finishASale();
@@ -47,6 +40,11 @@ public class CheckoutGUIController {
     }
 
     private CheckoutGUIController() {
+    }
+
+    public void updateLabel() {
+        balanceLabel.setText(String.format("%.2f", POSSystem.getInstance().getBalance()));
+        printButton.setDisable(false);
     }
 
     public void clearDisplay() {

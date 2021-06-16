@@ -46,6 +46,8 @@ class Sale {
     public void finish() {
         String receiptContent = receipt.saleToString(this);
         printer.print(receiptContent);
+
+        DatabaseProxy.getInstance().saveSale(this);
     }
 
     public void makePayment(double cash) {
