@@ -51,9 +51,9 @@ public class UI {
                 pos.makeNewSale();
 
                 while (true) {
-                    System.out.println("请输入id: ");
+                    System.out.print("请输入id: ");
                     int id = readInt();
-                    System.out.println("请输入数量: ");
+                    System.out.print("请输入数量: ");
                     int quantity = readInt();
                     pos.enterItem(id, quantity);
 
@@ -61,8 +61,8 @@ public class UI {
                         break;
                     }
                 }
-
-                System.out.println("打钱!");
+                System.out.println("商品总价为: " + pos.getTotal());
+                System.out.print("请付款: ");
                 pos.makePayment(readInt());
                 System.out.println("正在打印单据……");
                 pos.finishASale();
